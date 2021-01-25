@@ -3,6 +3,8 @@ package ui;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Random;
@@ -29,6 +31,8 @@ public class StartUp extends JPanel {
     private final int gridMargin;
     // Grid UI Size
     private final int gridSize;
+    // Position of the positive image
+    private int positivePosition;
 
     private StartUp(int numberOfColumns, int gridDimension, int gridMargin) {
         this.numberOfColumns = numberOfColumns;
@@ -45,6 +49,39 @@ public class StartUp extends JPanel {
         // set the window size to accommodate the 4x3 layout
         setPreferredSize(new Dimension(gridDimension, imageSize * numberOfRows + 2 * gridMargin));
         setBackground(Color.WHITE);
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                // used to let users to interact on the grid by clicking
+                // it's time to implement interaction with users to move tiles to solve the game !
+
+                // get position of the click
+                int ex = e.getX() - gridMargin;
+                int ey = e.getY() - gridMargin;
+
+                // click in the grid ?
+                if (ex < 0 || ex > gridSize || ey < 0 || ey > gridSize)
+                    return;
+
+                // get position in the grid
+                int c1 = ex / imageSize;
+                int r1 = ey / imageSize;
+
+                // we convert in the 1D coord
+                int clickPosition = r1 * numberOfColumns + c1;
+
+                // get position of the blank cell
+                int c2 = positivePosition % numberOfColumns;
+                int r2 = positivePosition / numberOfColumns;
+
+                if (clickPosition == positivePosition) {
+                    startProgram();
+                    repaint();
+                }
+
+            }
+        });
 
         startProgram();
     }
@@ -102,6 +139,7 @@ public class StartUp extends JPanel {
 
             if (n == 0) {
 
+                positivePosition = i;
                 int random = RANDOM.nextInt(numberOfFiles);
                 path = "assets/Faces/Positive/" + random + ".jpg";
 
