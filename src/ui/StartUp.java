@@ -3,23 +3,16 @@ package ui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 public class StartUp extends JPanel {
@@ -31,32 +24,34 @@ public class StartUp extends JPanel {
     // Number of images
     private int numberOfImages;
     // Grid UI Dimension
-    private int dimension;
+    private int gridDimension;
     // Random object to shuffle tiles
     private static final Random RANDOM = new Random();
-    // Array of integers for storing the images
+    // Array of integers for storing the position of images
     private int[] images;
     // Size of individual image on UI
     private int imageSize;
     // Margin for the grid on the frame
-    private int margin;
+    private int gridMargin;
     // Grid UI Size
     private int gridSize;
+    // the current number of pictures in the resource folder
+    private static final int numberOfFiles = 14; 
 
-    public StartUp(int numberOfColumns, int dim, int mar) {
+    private StartUp(int numberOfColumns, int gridDimension, int gridMargin) {
         this.numberOfColumns = numberOfColumns;
-        dimension = dim;
-        margin = mar;
+        this.gridDimension = gridDimension;
+        this.gridMargin = gridMargin;
         numberOfRows = numberOfColumns / 4 * 3; // numberOfColumns/4*3 to keep a 4:3 aspect ratio
         numberOfImages = numberOfColumns * numberOfRows;
-        images = new int[numberOfColumns * numberOfRows];
+        images = new int[numberOfImages];
 
         // calculate grid size and image size
-        gridSize = (dim - 2 * margin);
+        gridSize = (gridDimension - 2 * gridMargin);
         imageSize = gridSize / numberOfColumns;
 
         // set the window size to accommodate the 4x3 layout
-        setPreferredSize(new Dimension(dimension, imageSize * numberOfRows + 2 * margin));
+        setPreferredSize(new Dimension(gridDimension, imageSize * numberOfRows + 2 * gridMargin));
         setBackground(Color.WHITE);
 
         startProgram();
@@ -69,8 +64,8 @@ public class StartUp extends JPanel {
     }
 
     private void reset() {
-        for (int i = 0; i < images.length; i++) {
-            images[i] = (i + 1) % images.length; // ads 1, 2, 3...15, 0 to tiles array
+        for (int i = 0; i < this.images.length; i++) {
+            this.images[i] = (i + 1) % this.images.length; // ads 1, 2, 3...11, 0 to tiles array
         }
     }
 
@@ -79,28 +74,28 @@ public class StartUp extends JPanel {
 
         while (n > 1) {
             int r = RANDOM.nextInt(n--);
-            int tmp = images[r];
+            int temporary = images[r];
             images[r] = images[n];
-            images[n] = tmp;
+            images[n] = temporary;
         }
     }
 
-    private void drawGrid(Graphics2D g2d) {
+    private void buildImages(Graphics2D g2d) {
 
         for (int i = 0; i < images.length; i++) {
             // we convert 1D coords to 2D coords given the size of the 2D Array
             int r = i / numberOfColumns;
             int c = i % numberOfColumns;
             // we convert in coords on the UI
-            int x = margin + c * imageSize;
-            int y = margin + r * imageSize;
+            int x = gridMargin + c * imageSize;
+            int y = gridMargin + r * imageSize;
 
             BufferedImage img;
             int n = images[i];
             String path;
 
             if (n == 0) {
-                int numberOfFiles = 14; // the current number of pictures in the resource folder
+                
                 int random = RANDOM.nextInt(numberOfFiles);
                 path = "assets/Faces/Positive/" + random + ".jpg";
 
@@ -122,7 +117,7 @@ public class StartUp extends JPanel {
         super.paintComponent(g2d);
         Graphics2D g = (Graphics2D) g2d;
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        drawGrid(g);
+        buildImages(g);
     }
 
     public static void main(String[] args) {
