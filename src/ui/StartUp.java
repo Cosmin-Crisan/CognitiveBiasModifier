@@ -1,42 +1,34 @@
 package ui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Random;
 
-import javax.imageio.ImageIO;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-
 public class StartUp extends JPanel {
 
-    // Number of images in a row, hence the number of columns
-    private int numberOfColumns;
-    // Number of rows
-    private int numberOfRows;
-    // Number of images
-    private int numberOfImages;
-    // Grid UI Dimension
-    private int gridDimension;
     // Random object to shuffle tiles
     private static final Random RANDOM = new Random();
-    // Array of integers for storing the position of images
-    private int[] images;
-    // Size of individual image on UI
-    private int imageSize;
-    // Margin for the grid on the frame
-    private int gridMargin;
-    // Grid UI Size
-    private int gridSize;
     // the current number of pictures in the resource folder
-    private static final int numberOfFiles = 14; 
+    private static final int numberOfFiles = 14;
+    // Number of images in a row, hence the number of columns
+    private final int numberOfColumns;
+    // Number of rows
+    private final int numberOfRows;
+    // Number of images
+    private final int numberOfImages;
+    // Grid UI Dimension
+    private final int gridDimension;
+    // Array of integers for storing the position of images
+    private final int[] images;
+    // Size of individual image on UI
+    private final int imageSize;
+    // Margin for the grid on the frame
+    private final int gridMargin;
+    // Grid UI Size
+    private final int gridSize;
 
     private StartUp(int numberOfColumns, int gridDimension, int gridMargin) {
         this.numberOfColumns = numberOfColumns;
@@ -55,6 +47,20 @@ public class StartUp extends JPanel {
         setBackground(Color.WHITE);
 
         startProgram();
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame();
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setTitle("Cognitive Bias Modifier");
+            frame.setResizable(false);
+            frame.add(new StartUp(4, 750, 30), BorderLayout.CENTER);
+            frame.pack();
+            // center on the screen
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        });
     }
 
     private void startProgram() {
@@ -95,7 +101,7 @@ public class StartUp extends JPanel {
             String path;
 
             if (n == 0) {
-                
+
                 int random = RANDOM.nextInt(numberOfFiles);
                 path = "assets/Faces/Positive/" + random + ".jpg";
 
@@ -118,19 +124,5 @@ public class StartUp extends JPanel {
         Graphics2D g = (Graphics2D) g2d;
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         buildImages(g);
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame();
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setTitle("Cognitive Bias Modifier");
-            frame.setResizable(false);
-            frame.add(new StartUp(4, 750, 30), BorderLayout.CENTER);
-            frame.pack();
-            // center on the screen
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
-        });
     }
 }
