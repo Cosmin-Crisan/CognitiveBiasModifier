@@ -32,7 +32,7 @@ public class StartUp extends JPanel {
     // Grid UI Size
     private final int gridSize;
     // Position of the positive image
-    private int positivePosition;
+    private int positiveImagePosition;
 
     private StartUp(int numberOfColumns, int gridDimension, int gridMargin) {
         this.numberOfColumns = numberOfColumns;
@@ -53,8 +53,7 @@ public class StartUp extends JPanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                // used to let users to interact on the grid by clicking
-                // it's time to implement interaction with users to move tiles to solve the game !
+                // used for checking if the positive image is clicked
 
                 // get position of the click
                 int ex = e.getX() - gridMargin;
@@ -71,12 +70,9 @@ public class StartUp extends JPanel {
                 // we convert in the 1D coord
                 int clickPosition = r1 * numberOfColumns + c1;
 
-                // get position of the blank cell
-                int c2 = positivePosition % numberOfColumns;
-                int r2 = positivePosition / numberOfColumns;
-
-                if (clickPosition == positivePosition) {
-                    startProgram();
+                // restart the program if the user clicks on the positive image
+                if (clickPosition == positiveImagePosition) {
+                    restart();
                     repaint();
                 }
 
@@ -99,11 +95,16 @@ public class StartUp extends JPanel {
             frame.setVisible(true);
         });
     }
-
+    // restarts the program
+    private void restart() {
+        startProgram();
+    }
+    // starts the program
     private void startProgram() {
 
         reset(); // reset the array of images
         shuffle();
+        getPositiveImagePosition();
     }
 
     private void reset() {
@@ -123,6 +124,14 @@ public class StartUp extends JPanel {
         }
     }
 
+    private void getPositiveImagePosition() {
+        for (int i = 0; i < images.length; i++) {
+            if (images[i] == 0) {
+                positiveImagePosition = i;
+            }
+        }
+    }
+
     private void buildImages(Graphics2D g2d) {
 
         for (int i = 0; i < images.length; i++) {
@@ -139,7 +148,6 @@ public class StartUp extends JPanel {
 
             if (n == 0) {
 
-                positivePosition = i;
                 int random = RANDOM.nextInt(numberOfFiles);
                 path = "assets/Faces/Positive/" + random + ".jpg";
 
