@@ -95,10 +95,12 @@ public class StartUp extends JPanel {
             frame.setVisible(true);
         });
     }
+
     // restarts the program
     private void restart() {
         startProgram();
     }
+
     // starts the program
     private void startProgram() {
 
