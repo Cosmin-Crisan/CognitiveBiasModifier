@@ -130,6 +130,7 @@ public class StartUp extends JPanel {
         for (int i = 0; i < images.length; i++) {
             if (images[i] == 0) {
                 positiveImagePosition = i;
+                break;
             }
         }
     }
