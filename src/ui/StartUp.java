@@ -3,6 +3,8 @@ package ui;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Random;
@@ -29,6 +31,8 @@ public class StartUp extends JPanel {
     private final int gridMargin;
     // Grid UI Size
     private final int gridSize;
+    // Position of the positive image
+    private int positiveImagePosition;
 
     private StartUp(int numberOfColumns, int gridDimension, int gridMargin) {
         this.numberOfColumns = numberOfColumns;
@@ -45,6 +49,35 @@ public class StartUp extends JPanel {
         // set the window size to accommodate the 4x3 layout
         setPreferredSize(new Dimension(gridDimension, imageSize * numberOfRows + 2 * gridMargin));
         setBackground(Color.WHITE);
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                // used for checking if the positive image is clicked
+
+                // get position of the click
+                int ex = e.getX() - gridMargin;
+                int ey = e.getY() - gridMargin;
+
+                // click in the grid ?
+                if (ex < 0 || ex > gridSize || ey < 0 || ey > gridSize)
+                    return;
+
+                // get position in the grid
+                int c1 = ex / imageSize;
+                int r1 = ey / imageSize;
+
+                // we convert in the 1D coord
+                int clickPosition = r1 * numberOfColumns + c1;
+
+                // restart the program if the user clicks on the positive image
+                if (clickPosition == positiveImagePosition) {
+                    restart();
+                    repaint();
+                }
+
+            }
+        });
 
         startProgram();
     }
@@ -63,10 +96,17 @@ public class StartUp extends JPanel {
         });
     }
 
+    // restarts the program
+    private void restart() {
+        startProgram();
+    }
+
+    // starts the program
     private void startProgram() {
 
         reset(); // reset the array of images
         shuffle();
+        getPositiveImagePosition();
     }
 
     private void reset() {
@@ -83,6 +123,15 @@ public class StartUp extends JPanel {
             int temporary = images[r];
             images[r] = images[n];
             images[n] = temporary;
+        }
+    }
+
+    private void getPositiveImagePosition() {
+        for (int i = 0; i < images.length; i++) {
+            if (images[i] == 0) {
+                positiveImagePosition = i;
+                break;
+            }
         }
     }
 
