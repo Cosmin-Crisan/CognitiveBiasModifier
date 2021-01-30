@@ -41,12 +41,12 @@ public class StartUp extends JPanel {
 	private int positiveImagePosition;
 
 	/**
-	 * @see DisplayingImages.
+	 * @see ManagesImages.
 	 */
 	private ManagesImages imageManager;
 
-	private StartUp(int numberOfColumns, int gridDimension, int gridMargin) {
-		initialize(numberOfColumns, gridDimension, gridMargin);
+	private StartUp(int numberOfColumns, int gridDimension, int gridMargin, ManagesImages imageManager) {
+		initialize(numberOfColumns, gridDimension, gridMargin, imageManager);
 
 		addMouseListener(new MouseAdapter() {
 			@Override
@@ -83,8 +83,8 @@ public class StartUp extends JPanel {
 	 * @param gridDimension
 	 * @param gridMargin
 	 */
-	private void initialize(int numberOfColumns, int gridDimension, int gridMargin) {
-		this.imageManager = new ImageManager();
+	private void initialize(int numberOfColumns, int gridDimension, int gridMargin, ManagesImages imageManager) {
+		this.imageManager = imageManager;
 
 		this.numberOfColumns = numberOfColumns;
 		this.gridMargin = gridMargin;
@@ -107,7 +107,7 @@ public class StartUp extends JPanel {
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.setTitle("Cognitive Bias Modifier");
 			frame.setResizable(false);
-			frame.add(new StartUp(4, 750, 30), BorderLayout.CENTER);
+			frame.add(new StartUp(4, 750, 30, new ImageManager()), BorderLayout.CENTER);
 			frame.pack();
 			// center on the screen
 			frame.setLocationRelativeTo(null);
