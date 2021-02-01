@@ -9,8 +9,6 @@ import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.util.Random;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -19,9 +17,6 @@ import bussinessLogic.ImageManager;
 import interfaces.ManagesImages;
 
 public class StartUp extends JPanel {
-
-	// Random object to shuffle tiles
-	private static final Random RANDOM = new Random();
 
 	// Number of images in a row, hence the number of columns
 	private int numberOfColumns;
@@ -88,7 +83,7 @@ public class StartUp extends JPanel {
 
 		this.numberOfColumns = numberOfColumns;
 		this.gridMargin = gridMargin;
-		this.numberOfRows = numberOfColumns / 4 * 3; // numberOfColumns/4*3 to keep a 4:3 aspect ratio
+		this.numberOfRows = (numberOfColumns / 4) * 3; // numberOfColumns/4*3 to keep a 4:3 aspect ratio
 		this.numberOfImages = numberOfColumns * numberOfRows;
 		this.images = new int[numberOfImages];
 
