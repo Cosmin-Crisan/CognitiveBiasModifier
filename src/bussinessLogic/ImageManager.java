@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 import interfaces.ManagesImages;
 
 public class ImageManager implements ManagesImages {
-	// Random object to shuffle tiles
+	// Random object to shuffle the images index
 	private static final Random RANDOM = new Random();
 	// the current number of pictures in the resource folder
 	private static final int numberOfFiles = 14;
@@ -46,6 +46,17 @@ public class ImageManager implements ManagesImages {
 
 		for (int i = 0; i < imageListLength; i++) {
 			imageList[i] = (i + 1) % imageListLength; // ads 1, 2, 3...11, 0 to tiles array
+		}
+	}
+
+	@Override
+	public void shuffleIndexImages(int[] imageList, int totalImages) {
+
+		while (totalImages > 1) {
+			int randomNumber = RANDOM.nextInt(totalImages--);
+			int temporary = imageList[randomNumber];
+			imageList[randomNumber] = imageList[totalImages];
+			imageList[totalImages] = temporary;
 		}
 	}
 

@@ -33,4 +33,13 @@ public interface ManagesImages {
 	 * @param imageList
 	 */
 	public void setIndexImages(int[] imageList);
+
+	public void shuffleIndexImages(int[] imageList, int totalImages);
+
+	/**
+	 * Shuffle image indexes.
+	 *
+	 * @param imageList
+	 * @param totalImages
+	 */
 }

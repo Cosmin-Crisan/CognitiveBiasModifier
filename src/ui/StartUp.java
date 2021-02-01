@@ -40,8 +40,9 @@ public class StartUp extends JPanel {
 	// Position of the positive image
 	private int positiveImagePosition;
 
+
 	/**
-	 * @see ManagesImages.
+	 * @see ManagesImages
 	 */
 	private ManagesImages imageManager;
 
@@ -68,14 +69,13 @@ public class StartUp extends JPanel {
 
 				// restart the program if the user clicks on the positive image
 				if (clickPosition == positiveImagePosition) {
-					restart();
+					startProgram();
 					repaint();
 				}
 
 			}
 		});
 
-		startProgram();
 	}
 
 	/**
@@ -99,6 +99,8 @@ public class StartUp extends JPanel {
 		// set the window size to accommodate the 4x3 layout
 		setPreferredSize(new Dimension(gridDimension, imageSize * numberOfRows + 2 * gridMargin));
 		setBackground(Color.WHITE);
+
+		startProgram();
 	}
 
 	public static void main(String[] args) {
@@ -115,28 +117,14 @@ public class StartUp extends JPanel {
 		});
 	}
 
-	// restarts the program
-	private void restart() {
-		startProgram();
-	}
-
 	// starts the program
 	private void startProgram() {
-		// reset the array of images
+		// set indexes in the array of images
 		this.imageManager.setIndexImages(this.images);
-		shuffle();
+		// shuffle the index position of each image
+		this.imageManager.shuffleIndexImages(this.images, numberOfImages);
+		// get the location of the positive image
 		positiveImagePosition = this.imageManager.getPositiveImagePosition(this.images);
-	}
-
-	private void shuffle() {
-		int n = numberOfImages; // it's 12 now (4x3)
-
-		while (n > 1) {
-			int r = RANDOM.nextInt(n--);
-			int temporary = images[r];
-			images[r] = images[n];
-			images[n] = temporary;
-		}
 	}
 
 	private void buildImages(Graphics2D g2d) {
