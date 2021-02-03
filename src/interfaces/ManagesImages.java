@@ -13,7 +13,7 @@ import java.awt.image.BufferedImage;
 public interface ManagesImages {
 	/**
 	 * loading images from the specified path
-	 * 
+	 *
 	 * @param path       - path to images
 	 * @param imageIndex - the index of the image.
 	 */
@@ -22,24 +22,25 @@ public interface ManagesImages {
 	/**
 	 * Returns the position of the positive image.
 	 * 
-	 * @param imageList
+	 *
 	 * @return
 	 */
-	public int getPositiveImagePosition(int[] imageList);
+	public int getPositiveImagePosition();
 
 	/**
 	 * Set image indexes.
-	 * 
-	 * @param imageList
+	 *
 	 */
-	public void setIndexImages(int[] imageList);
+	public void setIndexImages();
 
 	/**
 	 * Shuffle image indexes.
 	 *
-	 * @param imageList
 	 * @param totalImages
 	 */
-	public void shuffleIndexImages(int[] imageList, int totalImages);
+	public void shuffleIndexImages(int totalImages);
 
+
+
+	int[] returnArray();
 }
