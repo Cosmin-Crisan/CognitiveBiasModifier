@@ -104,7 +104,7 @@ public class StartUp extends JPanel {
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.setTitle("Cognitive Bias Modifier");
 			frame.setResizable(false);
-			frame.add(new StartUp(4, 750, 30, new ImageManager()), BorderLayout.CENTER);
+			frame.add(new StartUp(4, 750, 30, new ImageManager(new int[12])), BorderLayout.CENTER);
 			frame.pack();
 			// center on the screen
 			frame.setLocationRelativeTo(null);
@@ -115,11 +115,12 @@ public class StartUp extends JPanel {
 	// starts the program
 	private void startProgram() {
 		// set indexes in the array of images
-		this.imageManager.setIndexImages(this.images);
+		this.imageManager.setIndexImages();
 		// shuffle the index position of each image
-		this.imageManager.shuffleIndexImages(this.images, numberOfImages);
+		this.imageManager.shuffleIndexImages(numberOfImages);
 		// get the location of the positive image
-		positiveImagePosition = this.imageManager.getPositiveImagePosition(this.images);
+		positiveImagePosition = this.imageManager.getPositiveImagePosition();
+		images = this.imageManager.returnArray();
 	}
 
 	private void buildImages(Graphics2D g2d) {
