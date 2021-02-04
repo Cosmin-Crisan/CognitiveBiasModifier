@@ -15,7 +15,7 @@ public class ImageManager implements ManagesImages {
 	private static final int numberOfFiles = 14;
 	private static int[] imageList;
 
-	public ImageManager(int[] imageList) {
+	public void setImageList (int[] imageList) {
 		this.imageList = imageList;
 
 	}
@@ -64,7 +64,7 @@ public class ImageManager implements ManagesImages {
 			imageList[totalImages] = temporary;
 		}
 	}
-	public int[] returnArray (){
+	public int[] returnImageList(){
 		return imageList;
 	}
 }

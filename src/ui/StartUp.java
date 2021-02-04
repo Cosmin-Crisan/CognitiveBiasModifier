@@ -63,7 +63,7 @@ public class StartUp extends JPanel {
 				int clickPosition = r1 * numberOfColumns + c1;
 
 				// restart the program if the user clicks on the positive image
-				if (clickPosition == positiveImagePosition) {
+				if (clickPosition == imageManager.getPositiveImagePosition()) {
 					startProgram();
 					repaint();
 				}
@@ -104,7 +104,7 @@ public class StartUp extends JPanel {
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.setTitle("Cognitive Bias Modifier");
 			frame.setResizable(false);
-			frame.add(new StartUp(4, 750, 30, new ImageManager(new int[12])), BorderLayout.CENTER);
+			frame.add(new StartUp(4, 750, 30, new ImageManager()), BorderLayout.CENTER);
 			frame.pack();
 			// center on the screen
 			frame.setLocationRelativeTo(null);
@@ -114,13 +114,14 @@ public class StartUp extends JPanel {
 
 	// starts the program
 	private void startProgram() {
+		//send the images array to ImageManager
+		this.imageManager.setImageList(images);
 		// set indexes in the array of images
 		this.imageManager.setIndexImages();
 		// shuffle the index position of each image
 		this.imageManager.shuffleIndexImages(numberOfImages);
-		// get the location of the positive image
-		positiveImagePosition = this.imageManager.getPositiveImagePosition();
-		images = this.imageManager.returnArray();
+		//return the shuffled array
+		images = this.imageManager.returnImageList();
 	}
 
 	private void buildImages(Graphics2D g2d) {
