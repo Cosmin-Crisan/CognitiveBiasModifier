@@ -22,8 +22,6 @@ public class StartUp extends JPanel {
 	private int numberOfColumns;
 	// Number of rows
 	private int numberOfRows;
-	// Number of images
-	private int numberOfImages;
 	// Array of integers for storing the position of images
 	private int[] images;
 	// Size of individual image on UI
@@ -32,10 +30,6 @@ public class StartUp extends JPanel {
 	private int gridMargin;
 	// Grid UI Size
 	private int gridSize;
-	// Position of the positive image
-	private int positiveImagePosition;
-
-
 	/**
 	 * @see ManagesImages
 	 */
@@ -64,7 +58,7 @@ public class StartUp extends JPanel {
 
 				// restart the program if the user clicks on the positive image
 				if (clickPosition == imageManager.getPositiveImagePosition()) {
-					startProgram();
+					initializeImageProperties();
 					repaint();
 				}
 
@@ -84,8 +78,6 @@ public class StartUp extends JPanel {
 		this.numberOfColumns = numberOfColumns;
 		this.gridMargin = gridMargin;
 		this.numberOfRows = (numberOfColumns / 4) * 3; // numberOfColumns/4*3 to keep a 4:3 aspect ratio
-		this.numberOfImages = numberOfColumns * numberOfRows;
-		this.images = new int[numberOfImages];
 
 		// calculate grid size and image size
 		this.gridSize = (gridDimension - 2 * gridMargin);
@@ -95,7 +87,7 @@ public class StartUp extends JPanel {
 		setPreferredSize(new Dimension(gridDimension, imageSize * numberOfRows + 2 * gridMargin));
 		setBackground(Color.WHITE);
 
-		startProgram();
+		initializeImageProperties();
 	}
 
 	public static void main(String[] args) {
@@ -104,7 +96,7 @@ public class StartUp extends JPanel {
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.setTitle("Cognitive Bias Modifier");
 			frame.setResizable(false);
-			frame.add(new StartUp(4, 750, 30, new ImageManager()), BorderLayout.CENTER);
+			frame.add(new StartUp(4, 750, 30, new ImageManager(new int[12])), BorderLayout.CENTER);
 			frame.pack();
 			// center on the screen
 			frame.setLocationRelativeTo(null);
@@ -113,15 +105,13 @@ public class StartUp extends JPanel {
 	}
 
 	// starts the program
-	private void startProgram() {
-		//send the images array to ImageManager
-		this.imageManager.setImageList(images);
+	private void initializeImageProperties() {
 		// set indexes in the array of images
 		this.imageManager.setIndexImages();
 		// shuffle the index position of each image
-		this.imageManager.shuffleIndexImages(numberOfImages);
+		this.imageManager.shuffleIndexImages();
 		//return the shuffled array
-		images = this.imageManager.returnImageList();
+		this.images = this.imageManager.getImageList();
 	}
 
 	private void buildImages(Graphics2D g2d) {
