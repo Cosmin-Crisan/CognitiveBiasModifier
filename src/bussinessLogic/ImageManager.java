@@ -14,11 +14,11 @@ public class ImageManager implements ManagesImages {
 	// the current number of pictures in the resource folder
 	private static final int numberOfFiles = 14;
 	private static int[] imageList;
-
-	public void setImageList (int[] imageList) {
+	
+	public ImageManager(int[] imageList) {
 		this.imageList = imageList;
-
 	}
+
 	@Override
 	public BufferedImage loadImages(String path, int imageIndex) {
 		if (imageIndex == 0) {
@@ -55,8 +55,8 @@ public class ImageManager implements ManagesImages {
 	}
 
 	@Override
-	public void shuffleIndexImages(int totalImages) {
-
+	public void shuffleIndexImages() {
+		int totalImages = getImageList().length;
 		while (totalImages > 1) {
 			int randomNumber = RANDOM.nextInt(totalImages--);
 			int temporary = imageList[randomNumber];
@@ -64,7 +64,7 @@ public class ImageManager implements ManagesImages {
 			imageList[totalImages] = temporary;
 		}
 	}
-	public int[] returnImageList(){
+	public int[] getImageList(){
 		return imageList;
 	}
 }

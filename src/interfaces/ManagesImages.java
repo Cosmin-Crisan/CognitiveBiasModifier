@@ -20,13 +20,6 @@ public interface ManagesImages {
 	public BufferedImage loadImages(String path, int imageIndex);
 
 	/**
-	 * Sets the dimension of the imageList array
-	 *
-	 * @param imageList
-	 */
-	public void setImageList (int[] imageList);
-
-	/**
 	 * Returns the position of the positive image.
 	 *
 	 * @return
@@ -41,15 +34,12 @@ public interface ManagesImages {
 
 	/**
 	 * Shuffle image indexes.
-	 *
-	 * @param totalImages
 	 */
-	public void shuffleIndexImages(int totalImages);
+	public void shuffleIndexImages();
 
 	/**
 	 * Returns the ImageList array
 	 * @return
 	 */
-
-	public int[] returnImageList();
+	public int[] getImageList();
 }
